@@ -109,35 +109,24 @@ const ViewCart = () => {
           Authorization: `Bearer ${token}`,
         },
       };
+      console.log(cartItems);
 
       const checkoutData = {
-        cartItems: cartItems.map(item => ({
-          productId: item,
-          quantity: products.find(product => product._id === item)?.quantity || 1
+        cartItems: products.map(item => ({
+          productId: item._id,
+          quantity: item.quantity || 1
         }))
       };
 
       const response = await axios.post('http://localhost:3000/api/v1/checkout', checkoutData, config);
       console.log('Checkout successful:', response.data.cart.items);
       console.log("response in cart" , response.data.cart);
-
-      const orderSummary = response.data.cart.items.map(item => {
-        const product = products.find(product => product._id === item.productId);
-        console.log(product);
-        if (!product) {
-          console.error(`Product with productId ${item.productId} not found.`);
-          return null; // Handle the error gracefully or skip this item
-        }
-        return {
-          productId: product._id,
-          title: product.title,
-          price: product.price,
-          quantity: item.quantity
-        };
-      });
-      if (orderSummary.length > 0) {
+      const orderId = response.data.cart._id
+      console.log(response.data)
+    
+      if (products.length > 0) {
         setIsModalOpen(false);
-        navigate(`/product/payment-form/${orderSummary[0].productId}`);
+        navigate(`/product/payment-form/${orderId}`);
       } else {
         console.error('No valid order summary items found.');
         // Handle the case where orderSummary is empty or invalid
