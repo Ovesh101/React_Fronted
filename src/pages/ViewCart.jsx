@@ -7,6 +7,7 @@ import { fetchProductsStart, fetchProductsSuccess, removeFromCart, fetchProducts
 import axios from 'axios'; // Import Axios
 import { useNavigate } from 'react-router-dom';
 import Modal from "../components/Model"
+import Navbar from '../components/NavBar';
 
 const ViewCart = () => {
   const dispatch = useDispatch();
@@ -14,7 +15,8 @@ const ViewCart = () => {
   const products = useSelector(state => state.product.products);
   const loading = useSelector(state => state.product.loading);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [orderSummary, setOrderSummary] = useState([]);
+  const [user , setUser] =  useState("");
+ 
   
   const navigate = useNavigate();
 
@@ -22,6 +24,8 @@ const ViewCart = () => {
     const fetchUserData = async () => {
       try {
         const user = await fetchUser(); // Implement your fetchUser function from API
+        
+        setUser(user)
         dispatch(setCartItems(user.cartItems));
       } catch (error) {
         console.error('Error fetching user data:', error);
@@ -152,56 +156,57 @@ const ViewCart = () => {
 
     return (
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="col-span-2">
-          <h2 className="text-2xl font-bold mb-4">Shopping Cart</h2>
-          {products.map(product => (
-            <div key={product._id} className="flex justify-between items-center bg-white p-4 rounded-lg shadow-md mb-4">
-              <div className="flex items-center">
-                <img src={product.image} alt={product.title} className="w-20 h-20 object-cover rounded-lg mr-4" />
-                <div>
-                  <h3 className="font-bold">{product.title}</h3>
-                  <p className="text-gray-600">${product.price}</p>
-                  <button
-                    onClick={() => handleRemove(product._id)}
-                    className="bg-lightblue-500 hover:bg-lightblue-700 text-blue-400 font-bold py-2 px-4 rounded"
-                  >
-                    Remove from Cart
-                  </button>
-                </div>
-              </div>
-              <div className="flex items-center space-x-2">
+      <div className="col-span-1 md:col-span-3">
+        <Navbar cartCount={products.length}  username={user} />
+        <h2 className="text-2xl font-bold mb-4">Shopping Cart</h2>
+        {products.map(product => (
+          <div key={product._id} className="flex justify-between items-center bg-white p-4 rounded-lg shadow-md mb-4">
+            <div className="flex items-center">
+              <img src={product.image} alt={product.title} className="w-20 h-20 object-cover rounded-lg mr-4" />
+              <div>
+                <h3 className="font-bold">{product.title}</h3>
+                <p className="text-gray-600">${product.price}</p>
                 <button
-                  onClick={() => handleDecrement(product._id)}
-                  className="bg-gray-200 hover:bg-gray-300 py-2 px-4 rounded-lg"
+                  onClick={() => handleRemove(product._id)}
+                  className="bg-lightblue-500 hover:bg-lightblue-700 text-blue-400 font-bold py-2 px-4 rounded"
                 >
-                  -
-                </button>
-                <span>{product.quantity || 1}</span>
-                <button
-                  onClick={() => handleIncrement(product._id)}
-                  className="bg-gray-200 hover:bg-gray-300 py-2 px-4 rounded-lg"
-                >
-                  +
+                  Remove from Cart
                 </button>
               </div>
             </div>
-          ))}
-        </div>
-
-        <div className="col-span-1">
-          <h2 className="text-2xl font-bold mb-4">Total</h2>
-          <div className="bg-white p-4 rounded-lg shadow-md">
-            <h3 className="text-xl font-bold">Total: ${calculateTotal()}</h3>
+            <div className="flex items-center space-x-2">
+              <button
+                onClick={() => handleDecrement(product._id)}
+                className="bg-gray-200 hover:bg-gray-300 py-2 px-4 rounded-lg"
+              >
+                -
+              </button>
+              <span>{product.quantity || 1}</span>
+              <button
+                onClick={() => handleIncrement(product._id)}
+                className="bg-gray-200 hover:bg-gray-300 py-2 px-4 rounded-lg"
+              >
+                +
+              </button>
+            </div>
           </div>
-          <button
-            onClick={handleCheckout}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
-          >
-            Checkout
-          </button>
-        </div>
-        <Modal isOpen={isModalOpen} onClose={handleModalClose} orderSummary={orderSummary} onConfirm={handleModalConfirm} />
+        ))}
       </div>
+
+      <div className="col-span-1 md:col-span-3">
+        <h2 className="text-2xl font-bold mb-4">Total</h2>
+        <div className="bg-white p-4 rounded-lg shadow-md">
+          <h3 className="text-xl font-bold">Total: ${calculateTotal()}</h3>
+        </div>
+        <button
+          onClick={handleCheckout}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+        >
+          Checkout
+        </button>
+      </div>
+      <Modal isOpen={isModalOpen} onClose={handleModalClose} onConfirm={handleModalConfirm} />
+    </div>
     );
   };
 
