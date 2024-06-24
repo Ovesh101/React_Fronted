@@ -69,6 +69,7 @@ const ProductLayout = () => {
 
         const response = await axios.get('http://localhost:3000/api/v1/me', config);
         setUser(response.data.user);
+        
       } catch (error) {
         toast.error(error?.response?.data?.msg || 'Something went wrong');
       }
@@ -84,7 +85,7 @@ const ProductLayout = () => {
 
   return (
     <div className="container mx-auto py-8">
-      <Navbar cartCount={user ? user.cartItems.length : 0} />
+      <Navbar cartCount={user ? user.cartItems.length : 0 } username={user}   />
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {products.map((product) => (
           <div key={product._id} className="max-w-xs mx-auto bg-white shadow-lg rounded-lg overflow-hidden">

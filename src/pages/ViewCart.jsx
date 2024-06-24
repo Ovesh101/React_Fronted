@@ -73,7 +73,7 @@ const ViewCart = () => {
     dispatch(removeFromCart({ productId }));
 
     const token = localStorage.getItem('token');
-    axios.delete(`http://localhost:3000/api/v1/cart/${productId}`, {
+    axios.delete(`http://localhost:3000/api/v1/${productId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       }
