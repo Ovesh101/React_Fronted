@@ -89,7 +89,7 @@ const ProductLayout = () => {
       <Navbar cartCount={user ? user.cartItems.length : 0} username={user} />
       <div className="gap-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {products.map((product) => (
-          <Card shadow="sm" key={product._id} isPressable onPress={() => navigate(`/product/${product._id}`)}>
+          <Card shadow="sm" key={product._id}>
             <CardBody className="overflow-visible p-0">
               <Image
                 shadow="sm"
@@ -102,7 +102,7 @@ const ProductLayout = () => {
             </CardBody>
             <CardFooter className="flex flex-col justify-around">
             <div className="flex flex-col mb-2 t ">
-                <b className="text-gray-900 font-semibold max-w-[200px] max-sm:max-w-[150px] text-lg line-clamp-1 ">{product.title}</b>
+                <b className="text-gray-900 font-semibold max-w-[200px] max-sm:max-w-[150px] text-lg line-clamp-1 cursor-pointer " onClick={() => navigate(`/product/${product._id}`)}>{product.title}</b>
                 <p className="text-gray-700">${product.price}</p>
               </div>
               <button
