@@ -107,6 +107,7 @@ const ViewCart = () => {
 
       const orderSummary = response.data.cart.items.map(item => {
         const product = products.find(product => product._id === item.productId);
+        console.log(product);
         return {
           productId: product._id,
           title: product.title,
