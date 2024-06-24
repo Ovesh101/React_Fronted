@@ -1,15 +1,20 @@
-const Modal = ({ isOpen, onClose, orderSummary, onConfirm }) => {
-    if (!isOpen || !orderSummary) return null;
+import { useDispatch, useSelector } from "react-redux";
+
+const Modal = ({ isOpen, onClose,  onConfirm }) => {
+    
+   
+    const products = useSelector(state => state.product.products);
+    if (!isOpen || !products) return null;
   
-    const totalPrice = orderSummary.reduce((total, item) => total + item.price * item.quantity, 0);
+    const totalPrice = products.reduce((total, item) => total + item.price * item.quantity, 0);
   
     return (
       <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
         <div className="bg-white p-6 rounded-lg shadow-lg">
           <h2 className="text-xl font-bold mb-4">Order Summary</h2>
-          {orderSummary.length > 0 ? (
+          {products.length > 0 ? (
             <ul>
-              {orderSummary.map((item) => (
+              {products.map((item) => (
                 <li key={item.productId} className="mb-2">
                   <span className="font-bold">{item.title}</span> - {item.quantity} x ${item.price} = ${item.price * item.quantity}
                 </li>

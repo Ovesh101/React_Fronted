@@ -87,6 +87,14 @@ const ViewCart = () => {
   };
 
   const handleCheckout = async () => {
+   setIsModalOpen(true)
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleModalConfirm = async () => {
     try {
       const token = localStorage.getItem('token');
       const config = {
@@ -115,22 +123,13 @@ const ViewCart = () => {
           quantity: item.quantity
         };
       });
-
-      setOrderSummary(orderSummary);
-      setIsModalOpen(true);
+      setIsModalOpen(false);
+      navigate(`/product/payment-form/${orderSummary[0].productId}`);
 
     } catch (error) {
       console.error('Error during checkout:', error);
     }
-  };
-
-  const handleModalClose = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleModalConfirm = () => {
-    setIsModalOpen(false);
-    navigate(`/product/payment-form/${orderSummary[0].productId}`);
+   
   };
 
   const calculateTotal = () => {
