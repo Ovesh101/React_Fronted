@@ -75,6 +75,8 @@ const ViewCart = () => {
 
   const handleRemove = (productId) => {
     dispatch(removeFromCart({ productId }));
+    
+
 
     const token = localStorage.getItem('token');
     axios.delete(`http://localhost:3000/api/v1/${productId}`, {
@@ -83,6 +85,7 @@ const ViewCart = () => {
       }
     })
       .then(response => {
+        dispatch(setCartItems(response.data.user.cartItems));
         console.log('Product removed from cart in database:', response.data);
       })
       .catch(error => {
@@ -116,10 +119,15 @@ const ViewCart = () => {
 
       const response = await axios.post('http://localhost:3000/api/v1/checkout', checkoutData, config);
       console.log('Checkout successful:', response.data.cart.items);
+      console.log("response in cart" , response.data.cart);
 
       const orderSummary = response.data.cart.items.map(item => {
         const product = products.find(product => product._id === item.productId);
         console.log(product);
+        if (!product) {
+          console.error(`Product with productId ${item.productId} not found.`);
+          return null; // Handle the error gracefully or skip this item
+        }
         return {
           productId: product._id,
           title: product.title,
@@ -127,8 +135,13 @@ const ViewCart = () => {
           quantity: item.quantity
         };
       });
-      setIsModalOpen(false);
-      navigate(`/product/payment-form/${orderSummary[0].productId}`);
+      if (orderSummary.length > 0) {
+        setIsModalOpen(false);
+        navigate(`/product/payment-form/${orderSummary[0].productId}`);
+      } else {
+        console.error('No valid order summary items found.');
+        // Handle the case where orderSummary is empty or invalid
+      }
 
     } catch (error) {
       console.error('Error during checkout:', error);
