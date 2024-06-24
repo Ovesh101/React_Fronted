@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import axios from 'axios'; // Import axios for making API calls
 import { toast } from 'react-toastify';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Button } from '@nextui-org/react';
 
 const PaymentForm = () => {
   const [formData, setFormData] = useState({
@@ -54,6 +55,12 @@ const PaymentForm = () => {
 
   return (
     <div className="container mx-auto p-8">
+      <Link to="/product/view-cart">
+          <Button  color="primary">
+            Back
+          </Button>
+      </Link>
+        
       <motion.div
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
