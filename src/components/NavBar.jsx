@@ -28,7 +28,7 @@ const Navbar = ({ cartCount, username }) => {
 
           {/* Right side */}
           <div className="flex items-center space-x-4">
-          <h2 className="text-2xl text-black">Welcome {username ? username.name : "User"}</h2>
+          <h2 className="text-gray-900 font-semibold max-w-[200px] max-sm:max-w-[150px] text-lg line-clamp-1">Welcome {username ? username.name : "User"}</h2>
             {/* View Cart icon */}
             <div className="relative">
               <button

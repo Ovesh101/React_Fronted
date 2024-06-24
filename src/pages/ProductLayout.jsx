@@ -102,7 +102,7 @@ const ProductLayout = () => {
             </CardBody>
             <CardFooter className="flex flex-col justify-around">
             <div className="flex flex-col mb-2 t ">
-                <b className="text-gray-900 font-medium text-sm line-clamp-2 ">{product.title}</b>
+                <b className="text-gray-900 font-semibold max-w-[200px] max-sm:max-w-[150px] text-lg line-clamp-1 ">{product.title}</b>
                 <p className="text-gray-700">${product.price}</p>
               </div>
               <button
