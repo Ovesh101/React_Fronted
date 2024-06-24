@@ -5,6 +5,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import Navbar from '../components/NavBar';
 import Footer from '../components/Footer';
+import { Card, CardBody, CardFooter, Image } from '@nextui-org/react';
 
 const ProductLayout = () => {
   const [products, setProducts] = useState([]);
@@ -84,32 +85,36 @@ const ProductLayout = () => {
   }
 
   return (
-    <div className="container mx-auto py-8">
-      <Navbar cartCount={user ? user.cartItems.length : 0 } username={user}   />
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <div className="container mx-auto py-8 px-4">
+      <Navbar cartCount={user ? user.cartItems.length : 0} username={user} />
+      <div className="gap-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {products.map((product) => (
-          <div key={product._id} className="max-w-xs mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
-            <img className="w-full h-56 object-cover object-center" src={product.image} alt={product.title} />
-            <div className="p-4">
-              <h2
-                className="text-gray-900 font-bold text-xl mb-2 cursor-pointer"
-                onClick={() => navigate(`/product/${product._id}`)}
-              >
-                {product.title}
-              </h2>
-              <p className="text-gray-700 text-base mb-2">${product.price}</p>
+          <Card shadow="sm" key={product._id} isPressable onPress={() => navigate(`/product/${product._id}`)}>
+            <CardBody className="overflow-visible p-0">
+              <Image
+                shadow="sm"
+                radius="lg"
+                width="100%"
+                alt={product.title}
+                className="w-full object-cover h-[200px] sm:h-[250px]"
+                src={product.image}
+              />
+            </CardBody>
+            <CardFooter className="flex flex-col justify-around">
+            <div className="flex flex-col mb-2 t ">
+                <b className="text-gray-900 font-medium text-sm line-clamp-2 ">{product.title}</b>
+                <p className="text-gray-700">${product.price}</p>
+              </div>
               <button
-                className={`w-full ${user && user.cartItems.includes(product._id) ? 'bg-green-500' : 'bg-blue-500'} hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-400`}
+                className={`mt-2 ${user && user.cartItems.includes(product._id) ? 'bg-green-500' : 'bg-blue-500'} hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-400`}
                 onClick={() => handleAddToCart(product)}
               >
                 {user && user.cartItems.includes(product._id) ? 'Added' : 'Add to Cart'}
               </button>
-            </div>
-          </div>
+            </CardFooter>
+          </Card>
         ))}
       </div>
-      
-      <Footer />
     </div>
     
   );
