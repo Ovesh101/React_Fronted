@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import Navbar from '../components/NavBar';
+import axiosInstance from '../utils/axiosConfig';
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -13,18 +14,12 @@ const ProductDetail = () => {
 
   const handleAddToCart = async (product) => {
     try {
-      const token = localStorage.getItem('token');
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      };
+  
 
-      const response = await axios.post(
-        'http://localhost:3000/api/v1/update-cart',
+      const response = await axiosInstance.post(
+        'update-cart',
         { productId: product._id },
-        config
+        
       );
 
       if (response.status === 200) {
@@ -41,20 +36,15 @@ const ProductDetail = () => {
     setLoading(true);
     const fetchProductAndUser = async () => {
       try {
-        const token = localStorage.getItem('token');
-        const config = {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        };
+   
 
         // Fetch product details
-        const productResponse = await axios.get(`http://localhost:3000/api/v1/product/${id}`, config);
+        const productResponse = await axiosInstance.get(`product/${id}`);
         console.log(productResponse);
         setProduct(productResponse.data.SingleProduct);
 
         // Fetch user details
-        const userResponse = await axios.get('http://localhost:3000/api/v1/me', config);
+        const userResponse = await axiosInstance.get('me');
         setUser(userResponse.data.user);
 
         setLoading(false);

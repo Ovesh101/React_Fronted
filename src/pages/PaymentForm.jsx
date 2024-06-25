@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+
 import { motion } from 'framer-motion';
-import axios from 'axios'; // Import axios for making API calls
+
 import { toast } from 'react-toastify';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Button } from '@nextui-org/react';
+import axiosInstance from '../utils/axiosConfig';
+import { useState } from 'react';
 
 const PaymentForm = () => {
   const [formData, setFormData] = useState({
@@ -33,13 +35,8 @@ const PaymentForm = () => {
     setError(null);
 
     try {
-        const token = localStorage.getItem('token');
-        const config = {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        };
-      const response = await axios.post(`http://localhost:3000/api/v1/payment/${id}`, formData , config); // Replace with your actual API endpoint
+      
+      const response = await axiosInstance.post(`payment/${id}`, formData); // Replace with your actual API endpoint
       toast.success(response.data.message)
       console.log(response.data);
       navigate('/product/payment-form/order');
@@ -47,7 +44,7 @@ const PaymentForm = () => {
     } catch (error) {
         
       setError('There was an issue submitting your payment. Please try again.');
-      toast.error(response.data.message)
+      toast.error(error.response.data.message)
     } finally {
       setIsSubmitting(false);
     }

@@ -1,14 +1,17 @@
-import { useEffect } from "react";
-import { FaShoppingCart } from "react-icons/fa";
+
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "../utils/axiosConfig";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const Navbar = ({ cartCount, username }) => {
   const navigate = useNavigate();
   // Handle logout functionality
-  const handleLogout = () => {
+  const handleLogout = async() => {
     // Implement your logout logic here
-    localStorage.removeItem("token");
+    const response = await  axiosInstance.post("logout")
+    toast.success(response.data.message)
     navigate("/login");
   };
 

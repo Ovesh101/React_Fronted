@@ -1,15 +1,19 @@
 import  { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axiosInstance from '../utils/axiosConfig';
 import { toast } from 'react-toastify';
+import Cookies from 'universal-cookie';
 
-import   FormRow  from './FormRow';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
+  
+
+const cookies = new Cookies();
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,9 +26,10 @@ const Login = () => {
     }
 
     try {
-     const response=  await axios.post(`http://localhost:3000/api/v1/login`, { email, password });
+     const response=  await axiosInstance.post(`login`, { email, password });
      console.log("response"  ,response);
-     localStorage.setItem("token" , response.data.token)
+     const token = cookies.get('token');
+     console.log("token in fronted" , token);
       toast.success("Login Successfully");
       navigate('/product');
     } catch (error) {
@@ -33,12 +38,7 @@ const Login = () => {
       setIsSubmitting(false);
     }
   };
-  useEffect(()=>{
-    const token = localStorage.getItem("token");
-    if(token){
-      navigate('/product');
-    }
-  } , [])
+
 
   return (
     

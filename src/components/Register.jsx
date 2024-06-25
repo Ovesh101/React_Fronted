@@ -1,8 +1,6 @@
 import  { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-
-import  FormRow from './FormRow';
+import axiosInstance from '../utils/axiosConfig';
 import { toast } from 'react-toastify';
 
 const Register = () => {
@@ -23,7 +21,7 @@ const Register = () => {
     setIsSubmitting(true);
 
     try {
-      await axios.post('http://localhost:3000/api/v1/register', formData);
+      await axiosInstance.post('register', formData);
       toast.success('Registration Successful');
       navigate('/login');
     } catch (error) {

@@ -8,6 +8,7 @@ import axios from 'axios'; // Import Axios
 import { useNavigate } from 'react-router-dom';
 import Modal from "../components/Model"
 import Navbar from '../components/NavBar';
+import axiosInstance from '../utils/axiosConfig';
 
 const ViewCart = () => {
   const dispatch = useDispatch();
@@ -39,16 +40,11 @@ const ViewCart = () => {
     const fetchProducts = async () => {
       try {
         dispatch(fetchProductsStart());
-        const token = localStorage.getItem('token');
-        const config = {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        };
+      
 
         // Fetch product details for each productId in cartItems
         const productRequests = cartItems.map(productId =>
-          axios.get(`http://localhost:3000/api/v1/product/${productId}`, config)
+          axiosInstance.get(`product/${productId}`)
             .then(response => ({ ...response.data.SingleProduct, quantity: 1 }))
         );
 
@@ -79,7 +75,7 @@ const ViewCart = () => {
 
 
     const token = localStorage.getItem('token');
-    axios.delete(`http://localhost:3000/api/v1/${productId}`, {
+    axiosInstance.delete(`${productId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       }
@@ -103,12 +99,7 @@ const ViewCart = () => {
 
   const handleModalConfirm = async () => {
     try {
-      const token = localStorage.getItem('token');
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
+    
       console.log(cartItems);
 
       const checkoutData = {
@@ -118,7 +109,7 @@ const ViewCart = () => {
         }))
       };
 
-      const response = await axios.post('http://localhost:3000/api/v1/checkout', checkoutData, config);
+      const response = await axiosInstance.post('checkout', checkoutData);
       console.log('Checkout successful:', response.data.cart.items);
       console.log("response in cart" , response.data.cart);
       const orderId = response.data.cart._id

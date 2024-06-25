@@ -1,19 +1,10 @@
-import axios from 'axios';
+
+import axiosInstance from './axiosConfig';
 
 export const fetchUser = async () => {
   try {
-    const token = localStorage.getItem('token'); // Assuming you store the token in localStorage
-    if (!token) {
-      throw new Error('Token not found');
-    }
 
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
-
-    const response = await axios.get('http://localhost:3000/api/v1/me', config); // Adjust URL as per your backend API
+    const response = await axiosInstance.get('me'); // Adjust URL as per your backend API
     return response.data.user; // Assuming the response contains a 'user' object with cartItems
   } catch (error) {
     console.error('Error fetching user:', error);

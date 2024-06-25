@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import Navbar from '../components/NavBar';
 import Footer from '../components/Footer';
 import { Card, CardBody, CardFooter, Image } from '@nextui-org/react';
+import axiosInstance from '../utils/axiosConfig';
 
 const ProductLayout = () => {
   const [products, setProducts] = useState([]);
@@ -16,18 +17,11 @@ const ProductLayout = () => {
 
   const handleAddToCart = async (product) => {
     try {
-      const token = localStorage.getItem('token');
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-      };
-
-      const response = await axios.post(
-        'http://localhost:3000/api/v1/update-cart',
+   
+      const response = await axiosInstance.post(
+        'update-cart',
         { productId: product._id },
-        config
+        
       );
 
       if (response.status === 200) {
@@ -43,14 +37,9 @@ const ProductLayout = () => {
     setLoading(true);
     const fetchProducts = async () => {
       try {
-        const token = localStorage.getItem('token');
-        const config = {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        };
+   
 
-        const response = await axios.get('http://localhost:3000/api/v1/product', config);
+        const response = await axiosInstance.get('product');
         setProducts(response.data.products);
         setLoading(false);
       } catch (error) {
@@ -61,14 +50,9 @@ const ProductLayout = () => {
 
     const fetchUser = async () => {
       try {
-        const token = localStorage.getItem('token');
-        const config = {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        };
+     
 
-        const response = await axios.get('http://localhost:3000/api/v1/me', config);
+        const response = await axiosInstance.get('me');
         setUser(response.data.user);
         
       } catch (error) {
@@ -101,20 +85,22 @@ const ProductLayout = () => {
               />
             </CardBody>
             <CardFooter className="flex flex-col justify-around">
-            <div className="flex flex-col mb-2 t ">
+            <div className="flex flex-col   ">
                 <b className="text-gray-900 font-semibold max-w-[200px] max-sm:max-w-[150px] text-lg line-clamp-1 cursor-pointer " onClick={() => navigate(`/product/${product._id}`)}>{product.title}</b>
-                <p className="text-gray-700">${product.price}</p>
-              </div>
-              <button
+                <p className="text-gray-700 text-center">${product.price}</p>
+                <button
                 className={`mt-2 ${user && user.cartItems.includes(product._id) ? 'bg-green-500' : 'bg-blue-500'} hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-400`}
                 onClick={() => handleAddToCart(product)}
               >
                 {user && user.cartItems.includes(product._id) ? 'Added' : 'Add to Cart'}
               </button>
+              </div>
+            
             </CardFooter>
           </Card>
         ))}
       </div>
+      <Footer/>
     </div>
     
   );
