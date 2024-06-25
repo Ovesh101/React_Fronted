@@ -10,14 +10,14 @@ const axiosInstance = axios.create({
   }
 });
 
-axiosInstance.interceptors.response.use(
-  response => response,
-  error => {
-    if (error.response.status === 400 && error.response.data['msg'] == "Authentication Invalid") {
-      toast.error(error.response.data.msg)
-      localStorage.setItem('Failed', true)
-      window.location.href = '/login';
-    }
-  });
+// axiosInstance.interceptors.response.use(
+//   response => response,
+//   error => {
+//     if (error.response.status === 400 && error.response.data['msg'] == "Authentication Invalid") {
+//       toast.error(error.response.data.msg)
+//       localStorage.setItem('Failed', true)
+//       window.location.href = '/login';
+//     }
+//   });
 
 export default axiosInstance;

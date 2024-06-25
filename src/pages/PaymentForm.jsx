@@ -44,7 +44,16 @@ const PaymentForm = () => {
     } catch (error) {
         
       setError('There was an issue submitting your payment. Please try again.');
-      toast.error(error.response.data.message)
+      const errorMessages = error?.response?.data?.msg.split(",");
+
+      if (Array.isArray(errorMessages)) {
+        const combinedMessage = errorMessages.join("\n"); // Joining with new line character
+        toast.error(
+          <div style={{ whiteSpace: "pre-line" }}>{combinedMessage}</div>
+        );
+      } else {
+        toast.error(errorMessages || "Login failed");
+      }
     } finally {
       setIsSubmitting(false);
     }
