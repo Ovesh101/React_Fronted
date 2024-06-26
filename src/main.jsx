@@ -23,7 +23,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       
   
       
-      <ToastContainer position='top-center' />
+      <ToastContainer 
+       position='top-center' />
     </BrowserRouter>
   </React.StrictMode>
 );

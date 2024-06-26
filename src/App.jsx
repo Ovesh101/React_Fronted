@@ -6,8 +6,9 @@ import ProductLayout from './pages/ProductLayout';
 import ProductDetail from './pages/ProductDetail';
 import ViewCart from './pages/ViewCart';
 import PaymentForm from './pages/PaymentForm';
-import Order from './pages/Order';
+
 import OrderModel from './pages/OrderModel';
+import Errorpage from './pages/ErrorPage';
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Route path="/product/view-cart" element={<ViewCart />} />
         <Route path="/product/payment-form/:id" element={<PaymentForm />} />
         <Route path="/product/payment-form/order" element={<OrderModel />} />
+        <Route path = "*" element={<Errorpage/>}/>
        
       
     </Routes>

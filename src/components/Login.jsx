@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../utils/axiosConfig";
 import { toast } from "react-toastify";
 import Cookies from "universal-cookie";
+import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google"; 
+const clientId = "11649722829-v5lj91eqc4g95kobnnr8qf8f620ga748.apps.googleusercontent.com";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -25,8 +27,7 @@ const Login = () => {
     try {
       const response = await axiosInstance.post(`login`, { email, password });
       console.log("response", response);
-      const token = cookies.get("token");
-      console.log("token in fronted", token);
+    
       toast.success("Login Successfully");
       navigate("/product");
     } catch (error) {
@@ -44,8 +45,18 @@ const Login = () => {
       setIsSubmitting(false);
     }
   };
+  const handleGoogleLoginSuccess = (response) => {
+    console.log("Response in google auth" , response);
+    window.location.href = `http://localhost:3000/api/v1/auth/google/callback`;
+  };
+
+  const handleGoogleLoginFailure = (error) => {
+    console.error("Google Login Failed:", error);
+    toast.error("Google Login failed! Please try again.", "error");
+  };
 
   return (
+    <GoogleOAuthProvider clientId={clientId}>
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-100 to-indigo-100">
       <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg transform transition-all hover:scale-105 duration-300 ease-in-out">
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -100,8 +111,22 @@ const Login = () => {
             </Link>
           </p>
         </form>
+        <div className="flex items-center justify-center mt-4 mb-4 text-sm">
+          <hr className="w-1/3 border-gray-400" />
+          <span className="mx-2 text-gray-600">Or</span>
+          <hr className="w-1/3 border-gray-400" />
+        </div>
+        <div className="flex items-center justify-center">
+          <GoogleLogin
+            onSuccess={handleGoogleLoginSuccess}
+            onFailure={handleGoogleLoginFailure}
+            cookiePolicy={"single_host_origin"}
+          />
+        </div>
+       
       </div>
-    </div>
+      </div>
+    </GoogleOAuthProvider>
   );
 };
 

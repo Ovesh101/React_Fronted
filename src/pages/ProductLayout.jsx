@@ -17,6 +17,8 @@ const ProductLayout = () => {
 
   const handleAddToCart = async (product) => {
     try {
+
+      console.log("cookie" , document.cookie);
    
       const response = await axiosInstance.post(
         'update-cart',
