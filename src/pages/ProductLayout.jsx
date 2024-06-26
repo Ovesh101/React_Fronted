@@ -5,6 +5,8 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import Navbar from '../components/NavBar';
 import Footer from '../components/Footer';
+import { bouncy } from 'ldrs'
+bouncy.register()
 import { Card, CardBody, CardFooter, Image } from '@nextui-org/react';
 import axiosInstance from '../utils/axiosConfig';
 
@@ -67,7 +69,15 @@ const ProductLayout = () => {
   }, []);
 
   if (loading) {
-    return <p>Loading...</p>;
+    
+
+
+
+return     <div className="flex flex-col items-center justify-center p-6 bg-gray-100 rounded-lg shadow-md">
+<div className="mb-4 text-xl font-semibold text-gray-700">Loading, please wait...</div>
+<l-bouncy size="45" speed="1.75" color="black"></l-bouncy>
+</div>
+    
   }
 
   return (

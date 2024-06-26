@@ -4,12 +4,14 @@ import axiosInstance from "../utils/axiosConfig";
 import { toast } from "react-toastify";
 import Cookies from "universal-cookie";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google"; 
+import { Button } from "@nextui-org/react";
 const clientId = "11649722829-v5lj91eqc4g95kobnnr8qf8f620ga748.apps.googleusercontent.com";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const navigate = useNavigate();
 
   const cookies = new Cookies();
@@ -88,13 +90,21 @@ const Login = () => {
                 Password
               </label>
               <input
-                type="password"
+                 type={passwordVisible ? 'text' : 'password'}
                 name="password"
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
+              <Button
+              color="primary" variant="flat" size="sm"
+              type="button"
+              className="toggle-password mt-4 "
+              onClick={() => setPasswordVisible(!passwordVisible)}
+            >
+              {passwordVisible ? 'Hide' : 'Show'}
+            </Button>
             </div>
           </div>
           <button

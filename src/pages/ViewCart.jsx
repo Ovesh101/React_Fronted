@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchUser } from "../utils/apiUtils"; // Adjust path as per your project structure
 import { setCartItems } from '../features/cart/cartSlice';
 import { fetchProductsStart, fetchProductsSuccess, removeFromCart, fetchProductsFailure, incrementQuantity, decrementQuantity } from '../features/product/productSlice';
-
-import axios from 'axios'; // Import Axios
+import { bouncy } from 'ldrs'
+bouncy.register()
 import { useNavigate } from 'react-router-dom';
 import Modal from "../components/Model"
 import Navbar from '../components/NavBar';
@@ -140,7 +140,10 @@ const ViewCart = () => {
 
   const renderCartItems = () => {
     if (loading) {
-      return <p>Loading...</p>;
+      return     <div className="flex flex-col items-center justify-center p-6 bg-gray-100 rounded-lg shadow-md">
+      <div className="mb-4 text-xl font-semibold text-gray-700">Loading, please wait...</div>
+      <l-bouncy size="45" speed="1.75" color="black"></l-bouncy>
+      </div>
     }
 
     if (products.length === 0) {

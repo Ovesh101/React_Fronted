@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../utils/axiosConfig";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google"; 
 import { toast } from "react-toastify";
+import {Button} from "@nextui-org/react";
 
 const clientId = "11649722829-v5lj91eqc4g95kobnnr8qf8f620ga748.apps.googleusercontent.com";
 const Register = () => {
@@ -13,6 +14,7 @@ const Register = () => {
     password: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -109,13 +111,21 @@ const Register = () => {
               <input
                 id="password"
                 name="password"
-                type="password"
+                type={passwordVisible ? 'text' : 'password'}
                 autoComplete="new-password"
                 required
                 value={formData.password}
                 onChange={handleChange}
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-400 focus:border-blue-400 sm:text-sm"
               />
+              <Button
+              color="primary" variant="flat" size="sm"
+              type="button"
+              className="toggle-password mt-4"
+              onClick={() => setPasswordVisible(!passwordVisible)}
+            >
+              {passwordVisible ? 'Hide' : 'Show'}
+            </Button>
             </div>
           </div>
           <button
