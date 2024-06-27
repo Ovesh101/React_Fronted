@@ -4,10 +4,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axiosInstance from '../utils/axiosConfig';
-import { Eye, EyeOff, Mail, SquareAsterisk } from "lucide-react";
+import { Eye, EyeOff,  SquareAsterisk } from "lucide-react";
 import { toast } from 'react-toastify';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
-import { Button } from '@nextui-org/react';
+
 
 const clientId = '11649722829-v5lj91eqc4g95kobnnr8qf8f620ga748.apps.googleusercontent.com';
 
@@ -129,10 +129,7 @@ const Register = () => {
                       required
                       className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-400 focus:border-blue-400 sm:text-sm"
                     />
-                      <div className="absolute top-0 left-0 flex items-center justify-center h-[35px] w-9 rounded-lg">
-                    <SquareAsterisk className="h-4 w-4 text-gray-500"  />
-
-                    </div>
+                  
             
                   </div>
                   <ErrorMessage name="password" component="p" className="mt-2 text-sm text-red-600" />

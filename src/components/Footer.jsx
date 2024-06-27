@@ -1,18 +1,76 @@
-// src/components/Footer.js
 
 
 const Footer = () => {
+  const currentYear = new Date().getFullYear();
   return (
-    <footer className="bg-gray-800 text-white py-4 w-full">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center flex-wrap">
-        <p className="text-sm">&copy; {new Date().getFullYear()} Your Company. All rights reserved.</p>
-        <div className="flex space-x-4 mt-2 sm:mt-0">
-          <a href="/privacy" className="text-sm hover:text-yellow-400">Privacy Policy</a>
-          <a href="/terms" className="text-sm hover:text-yellow-400">Terms of Service</a>
-          <a href="/contact" className="text-sm hover:text-yellow-400">Contact Us</a>
+    <div>
+      {/* Footer */}
+      <footer className="bg-primary text-white py-10">
+        <div className="container mx-auto flex flex-col gap-6">
+          <div className="flex flex-col gap-2 flex-wrap">
+            <h1 className="text-white text-4xl font-bold">ACME</h1>
+            <p className="text-white text-lg">
+              The best place to find the most amazing products
+            </p>
+          </div>
+          <div className="flex justify-between w-full flex-wrap gap-6">
+            <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-2">
+                <h2 className="text-white text-lg font-semibold">
+                  Quick Links
+                </h2>
+                <a href="#" className="text-white text-lg">
+                  Home
+                </a>
+                <a href="#" className="text-white text-lg">
+                  About
+                </a>
+                <a href="#" className="text-white text-lg">
+                  Contact
+                </a>
+              </div>
+            </div>
+            <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-2">
+                <h2 className="text-white text-lg font-semibold">
+                  Quick Links
+                </h2>
+                <a href="#" className="text-white text-lg">
+                  Home
+                </a>
+                <a href="#" className="text-white text-lg">
+                  About
+                </a>
+                <a href="#" className="text-white text-lg">
+                  Contact
+                </a>
+              </div>
+            </div>
+            <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-2">
+                <div className="company-info">
+                  <h2 className="text-white text-lg font-semibold">Company</h2>
+                  <p className="text-white text-lg contact">
+                    <strong>Contact :</strong> +1 1234567890
+                  </p>
+                  <p className="text-white text-lg contact max-w-[250px]">
+                    <strong>Address :</strong> 1234 street, Los Angeles, California, 90001
+                  </p>
+                  <p className="text-white text-lg">
+                    <strong>Mail :</strong> info@acme.com
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+      </footer>
+      <div className="bg-white">
+        <p className="text-gray-900 font-semibold w-full text-center py-2">
+          {currentYear} ACME &copy;. All Rights Reserved.
+        </p>
       </div>
-    </footer>
+    </div>
   );
 };
 
