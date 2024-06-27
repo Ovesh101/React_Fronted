@@ -9,6 +9,8 @@ import PaymentForm from './pages/PaymentForm';
 
 import OrderModel from './pages/OrderModel';
 import Errorpage from './pages/ErrorPage';
+import ForgetPassword from './components/ForgetPassword';
+import ResetPassword from './components/ResetPassword';
 
 
 function App() {
@@ -23,6 +25,8 @@ function App() {
         <Route path="/product/view-cart" element={<ViewCart />} />
         <Route path="/product/payment-form/:id" element={<PaymentForm />} />
         <Route path="/product/payment-form/order" element={<OrderModel />} />
+        <Route path="/forgetPassword" element={<ForgetPassword />} />
+        <Route path="/resetPassword/:resetToken" element={<ResetPassword />} />
         <Route path = "*" element={<Errorpage/>}/>
        
       
